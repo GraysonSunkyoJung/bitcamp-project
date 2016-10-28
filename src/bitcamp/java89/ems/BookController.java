@@ -3,15 +3,38 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class BookController {
-  Book[] books = new Book[100];
-  int length = 0;
-  Scanner keyScan;
+  //아래 인스턴스 변수들은 외부에서 사용할 일이 없기 때문에
+  //private으로 접근을 제한한다.
+  private Book[] books = new Book[100];
+  private int length = 0;
+  private Scanner keyScan;
 
   public BookController(Scanner keyScan) {
     this.keyScan = keyScan;
   }
 
-  public void doAdd() {
+  public void service() {
+    loop:
+    while (true) {
+      System.out.print("교재관리> ");
+      String command = keyScan.nextLine().toLowerCase(); //입력받은걸 그대로 출력
+
+      switch (command) {
+      case "add": this.doAdd(); break;
+      case "list": this.doList(); break;
+      case "view": this.doView(); break;
+      case "delete": this.doDelete(); break;
+      case "update": this.doUpdate(); break;
+      case "main":
+        break loop;
+      default:
+        System.out.println("지원하지 않는 명령어 입니다.");
+      }
+    }
+  }
+  //아래 doXXX() 메서드들은 오직 service()에서만 호출하기 때문에
+  //private으로 접근을 제한한다.
+  private void doAdd() {
     while (length < this.books.length){
       Book b1 = new Book();
       System.out.print("제목? ");
@@ -37,7 +60,7 @@ public class BookController {
 
     }
   }
-  public void doView() {
+  private void doView() {
     System.out.print("조회할 책의 제목은?");
     String name = this.keyScan.nextLine().toLowerCase();
     for (int i = 0; i < this.length; i++) {
@@ -51,7 +74,7 @@ public class BookController {
       }
     }
   }
-  public void doList() {
+  private void doList() {
     for (int i = 0; i <this.length; i++) {
       Book b1 = this.books[i];
       System.out.printf("%s, %s, %d, %d, %b\n",
@@ -62,7 +85,7 @@ public class BookController {
         ((b1.cd)? "y" : "n"));
     }
   }
-  public void doDelete() {
+  private void doDelete() {
     System.out.print("삭제할 책의 이름은?");
     String name = this.keyScan.nextLine().toLowerCase();
 
@@ -80,7 +103,7 @@ public class BookController {
     System.out.printf("%s 책이 없습니다.\n", name);
 
 }
-  public void doUpdate() {
+  private void doUpdate() {
     System.out.print("변경할 책의 제목은?");
     String name = this.keyScan.nextLine().toLowerCase();
     for (int i = 0; i < this.length; i++) {
