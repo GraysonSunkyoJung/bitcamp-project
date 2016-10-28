@@ -11,7 +11,7 @@ public class BookController {
     this.keyScan = keyScan;
   }
 
-  void doAdd() {
+  public void doAdd() {
     while (length < this.books.length){
       Book b1 = new Book();
       System.out.print("제목? ");
@@ -37,7 +37,7 @@ public class BookController {
 
     }
   }
-  void doView() {
+  public void doView() {
     System.out.print("조회할 책의 제목은?");
     String name = this.keyScan.nextLine().toLowerCase();
     for (int i = 0; i < this.length; i++) {
@@ -51,7 +51,7 @@ public class BookController {
       }
     }
   }
-  void doList() {
+  public void doList() {
     for (int i = 0; i <this.length; i++) {
       Book b1 = this.books[i];
       System.out.printf("%s, %s, %d, %d, %b\n",
@@ -61,5 +61,59 @@ public class BookController {
         b1.page,
         ((b1.cd)? "y" : "n"));
     }
+  }
+  public void doDelete() {
+    System.out.print("삭제할 책의 이름은?");
+    String name = this.keyScan.nextLine().toLowerCase();
+
+    for (int i = 0; i < this.length; i++) {
+      if(this.books[i].name.toLowerCase().equals(name)) {
+        for (int x = i + 1; x < this.length; x++, i++) {
+          this.books[i] = this.books[x];
+        }
+        this.books[--length] = null;
+
+        System.out.printf("%s 책을 삭제하였습니다.\n", name);
+      return;
+      }
+    }
+    System.out.printf("%s 책이 없습니다.\n", name);
+
+}
+  public void doUpdate() {
+    System.out.print("변경할 책의 제목은?");
+    String name = this.keyScan.nextLine().toLowerCase();
+    for (int i = 0; i < this.length; i++) {
+      if(this.books[i].name.toLowerCase().equals(name)) {
+        Book b1 = new Book();
+
+        b1.name = this.books[i].name;
+
+        System.out.print("제목? ");
+        b1.name = this.keyScan.nextLine();
+
+        System.out.print("저자? ");
+        b1.author = this.keyScan.nextLine();
+
+        System.out.print("가격? ");
+        b1.price = Integer.parseInt(this.keyScan.nextLine());
+
+        System.out.print("쪽수? ");
+        b1.page = Integer.parseInt(this.keyScan.nextLine());
+
+        System.out.print("부록(y/n)? ");
+        b1.cd = this.keyScan.nextLine().equals("y") ? true : false;
+
+        System.out.print("저장하시겠습니까(y/n)?");
+        if (keyScan.nextLine().toLowerCase().equals("y")) {
+          this.books[i] = b1;
+          System.out.println("저장하였습니다.");
+        } else {
+          System.out.println("변경을 취소하였습니다.");
+        }
+        return;
+      }
+    }
+    System.out.printf("%s 이라는 학생이 없습니다.\n", name);
   }
 }

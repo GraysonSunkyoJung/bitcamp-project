@@ -18,6 +18,8 @@ public class EduApp {
         case "add": bookController.doAdd(); break;
         case "list": bookController.doList(); break;
         case "view": bookController.doView(); break;
+        case "delete": bookController.doDelete(); break;
+        case "update": bookController.doUpdate(); break;
         case "quit":
             System.out.println("Good bye!");
               break loop;
