@@ -1,3 +1,8 @@
+//모든 예외 처리를 service() 에서 수행한다.
+// => doXxx() 메서드에서 예외처리 코드를 작성할 필요가 없다.
+// => 단점: 각각의 명령어 마다 섬세하게 예외를 다룰 수 없다.
+// 따라서 예외를 중앙에서 처리할 지 개별적으로 처리할 지,
+// 아니면 섞을지 개발자가 선택하면 된다.
 package bitcamp.java89.ems;
 
 import java.util.Scanner;
@@ -17,21 +22,28 @@ public class BookController {
       System.out.print("교재관리> ");
       String command = keyScan.nextLine().toLowerCase(); //입력받은걸 그대로 출력
 
-      switch (command) {
-      case "add": this.doAdd(); break;
-      case "list": this.doList(); break;
-      case "view": this.doView(); break;
-      case "delete": this.doDelete(); break;
-      case "update": this.doUpdate(); break;
-      case "main":
-        break loop;
-      default:
-        System.out.println("지원하지 않는 명령어 입니다.");
-      }
+      try {
+        switch (command) {
+        case "add": this.doAdd(); break;
+        case "list": this.doList(); break;
+        case "view": this.doView(); break;
+        case "delete": this.doDelete(); break;
+        case "update": this.doUpdate(); break;
+        case "main":
+          break loop;
+        default:
+          System.out.println("지원하지 않는 명령어 입니다.");
+        }
+      } catch (IndexOutOfBoundsException e) {
+      System.out.println("인덱스가 유효하지 않습니다.");
+      } catch (Exception e) {
+        System.out.println("인덱스 값이 잘못 되었거나, 실행중 오류가 발생했습니다.");
+      }//try
     }
   }
 
   private void doAdd() {
+
     while (true) {
       Book b1 = new Book();
       System.out.print("제목? ");
@@ -39,23 +51,31 @@ public class BookController {
 
       System.out.print("저자? ");
       b1.author = this.keyScan.nextLine();
-
-      System.out.print("가격? ");
-      b1.price = Integer.parseInt(this.keyScan.nextLine());
-
-      System.out.print("쪽수? ");
-      b1.page = Integer.parseInt(this.keyScan.nextLine());
-
+      while(true) {
+        try{
+          System.out.print("가격? ");
+          b1.price = Integer.parseInt(this.keyScan.nextLine());
+          break;
+        } catch(Exception e) {
+          System.out.println("정수 값을 입력하세요");
+        }
+      }
+      while (true) {
+        try{
+          System.out.print("쪽수? ");
+          b1.page = Integer.parseInt(this.keyScan.nextLine());
+          break;
+        } catch(Exception e) {
+          System.out.println("정수 값을 입력하세요.");
+        }
+      }
       System.out.print("부록(y/n)? ");
       b1.cd = this.keyScan.nextLine().equals("y") ? true : false;
 
       list.add(b1);
-
-
       System.out.print("계속 입력하시겠습니까(y/n)?");
       if (!keyScan.nextLine().equals("y"))
         break;
-
     }
   }
 
@@ -67,14 +87,12 @@ public class BookController {
       System.out.println("인덱스가 유효하지 않습니다.");
       return;
     }
-
-        Book b1 = list.get(index);
-
-        System.out.printf("제목: %s\n", b1.name);
-        System.out.printf("저자: %s\n", b1.author);
-        System.out.printf("가격: %d\n", b1.price);
-        System.out.printf("쪽수: %d\n", b1.page);
-        System.out.printf("부록: %s\n", ((b1.cd)? "y" :"n"));
+      Book b1 = list.get(index);
+      System.out.printf("제목: %s\n", b1.name);
+      System.out.printf("저자: %s\n", b1.author);
+      System.out.printf("가격: %d\n", b1.price);
+      System.out.printf("쪽수: %d\n", b1.page);
+      System.out.printf("부록: %s\n", ((b1.cd)? "y" :"n"));
   }
 
   private void doList() {
@@ -92,24 +110,15 @@ public class BookController {
   private void doDelete() {
     System.out.print("삭제할 책의 인덱스?");
     int index = Integer.parseInt(keyScan.nextLine());
-
-    if(index < 0 || index >= list.size()) {
-      System.out.println("인덱스가 유효하지 않습니다.");
-      return;
-    }
     Book deletedBook = list.remove(index);
-      System.out.printf("%s 책을 삭제하였습니다.\n", deletedBook.name);
-
-}
+    System.out.printf("%s 책을 삭제하였습니다.\n", deletedBook.name);
+  }
 
   private void doUpdate() {
+
     System.out.print("책의 인덱스?");
     int index = Integer.parseInt(this.keyScan.nextLine());
-    //유효한 인덱스 인지 검사
-    if(index < 0 || index >= list.size()) {
-      System.out.println("인덱스가 유효하지 않습니다.");
-      return;
-    }
+
     Book oldBook = list.get(index);
 
     //새 학생 정보를 입력받는다.
@@ -118,11 +127,24 @@ public class BookController {
     System.out.printf("저자(%s)?", oldBook.author);
     b1.author = this.keyScan.nextLine();
 
-    System.out.printf("가격(%d)? ", oldBook.price);
-    b1.price = Integer.parseInt(this.keyScan.nextLine());
-
-    System.out.printf("쪽수(%d)? ", oldBook.page);
-    b1.page = Integer.parseInt(this.keyScan.nextLine());
+    while(true) {
+      try{
+        System.out.print("가격? ");
+        b1.price = Integer.parseInt(this.keyScan.nextLine());
+        break;
+      } catch(Exception e) {
+        System.out.println("정수 값을 입력하세요");
+      }
+    }
+    while (true) {
+      try{
+        System.out.print("쪽수? ");
+        b1.page = Integer.parseInt(this.keyScan.nextLine());
+        break;
+      } catch(Exception e) {
+        System.out.println("정수 값을 입력하세요.");
+      }
+    }
 
     System.out.print("부록(y/n)? ");
     b1.cd = this.keyScan.nextLine().equals("y") ? true : false;
