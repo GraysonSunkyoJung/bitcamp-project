@@ -3,11 +3,11 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class BookController {
-  private LinkedList list;
+  private LinkedList<Book> list;
   private Scanner keyScan;
 
   public BookController(Scanner keyScan) {
-    list = new LinkedList();
+    list = new LinkedList<Book>();
     this.keyScan = keyScan;
   }
 
@@ -68,7 +68,7 @@ public class BookController {
       return;
     }
 
-        Book b1 = (Book)list.get(index);
+        Book b1 = list.get(index);
 
         System.out.printf("제목: %s\n", b1.name);
         System.out.printf("저자: %s\n", b1.author);
@@ -79,7 +79,7 @@ public class BookController {
 
   private void doList() {
     for (int i = 0; i < list.size(); i++){
-      Book b1 = (Book)list.get(i);
+      Book b1 = list.get(i);
       System.out.printf("%s, %s, %d, %d, %s\n",
         b1.name,
         b1.author,
@@ -97,7 +97,7 @@ public class BookController {
       System.out.println("인덱스가 유효하지 않습니다.");
       return;
     }
-    Book deletedBook = (Book)list.remove(index);
+    Book deletedBook = list.remove(index);
       System.out.printf("%s 책을 삭제하였습니다.\n", deletedBook.name);
 
 }
@@ -110,7 +110,7 @@ public class BookController {
       System.out.println("인덱스가 유효하지 않습니다.");
       return;
     }
-    Book oldBook = (Book)list.get(index);
+    Book oldBook = list.get(index);
 
     //새 학생 정보를 입력받는다.
     Book b1 = new Book();
