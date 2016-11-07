@@ -1,18 +1,17 @@
-//모든 예외 처리를 service() 에서 수행한다.
-// => doXxx() 메서드에서 예외처리 코드를 작성할 필요가 없다.
-// => 단점: 각각의 명령어 마다 섬세하게 예외를 다룰 수 없다.
-// 따라서 예외를 중앙에서 처리할 지 개별적으로 처리할 지,
-// 아니면 섞을지 개발자가 선택하면 된다.
+/* 작업내용
+- LinkedList를 ArrayList로 교체한다.
+*/
 package bitcamp.java89.ems;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class BookController {
-  private LinkedList<Book> list;
+  private ArrayList<Book> list;
   private Scanner keyScan;
 
   public BookController(Scanner keyScan) {
-    list = new LinkedList<Book>();
+    list = new ArrayList<Book>();
     this.keyScan = keyScan;
   }
 
@@ -96,8 +95,7 @@ public class BookController {
   }
 
   private void doList() {
-    for (int i = 0; i < list.size(); i++){
-      Book b1 = list.get(i);
+    for (Book b1 : list) {
       System.out.printf("%s, %s, %d, %d, %s\n",
         b1.name,
         b1.author,
