@@ -1,18 +1,81 @@
-/* 작업내용
-- LinkedList를 ArrayList로 교체한다.
+/* 작업내용 : 저장기능 추가
+- ischanged()추가
+- save 추가
 */
 package bitcamp.java89.ems;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.DataInputStream;
+import java.io.EOFException;
 
 public class BookController {
-  private ArrayList<Book> list;
+  private String filename = "book.data";
+  static ArrayList<Book> list;
   private Scanner keyScan;
+  private boolean changed;
 
-  public BookController(Scanner keyScan) {
+
+  public BookController(Scanner keyScan) throws Exception {
     list = new ArrayList<Book>();
     this.keyScan = keyScan;
+
+    this.load(); // 기존의 데이터 파일을 읽어서 ArrayList에 교재정보를 로딩한다.
+  }
+
+  public boolean isChanged() {
+    return changed;
+  }
+
+  private void load() {
+    FileInputStream in0 = null;
+    DataInputStream in = null;
+
+    try {
+      in0 = new FileInputStream(this.filename);
+      in = new DataInputStream(in0);
+
+      while (true) {
+        Book b1 = new Book();
+        b1.name = in.readUTF();
+        b1.author = in.readUTF();
+        b1.price = in.readInt();
+        b1.page = in.readInt();
+        b1.cd = in.readBoolean();
+        this.list.add(b1);
+      }
+     } catch (EOFException e) {
+       // 파일을 모두 읽었다.
+     } catch (Exception e) {
+       System.out.println("학생 데이터 로딩 중 오류 발생!");
+     } finally {
+      try{
+       in.close();
+       in0.close();
+      } catch (Exception e) {
+         // close하다가 예외 발생하면 무시한다.
+      }
+    }
+  }
+
+  public void save() throws Exception {
+    FileOutputStream out0 = new FileOutputStream(this.filename);
+    DataOutputStream out = new DataOutputStream(out0);
+
+    for (Book b1 : this.list) {
+      out.writeUTF(b1.name);
+      out.writeUTF(b1.author);
+      out.writeInt(b1.price);
+      out.writeInt(b1.page);
+      out.writeBoolean(b1.cd);
+    }
+    changed = false;
+
+    out.close();
+    out0.close();
   }
 
   public void service() {
@@ -72,6 +135,7 @@ public class BookController {
       b1.cd = this.keyScan.nextLine().equals("y") ? true : false;
 
       list.add(b1);
+      changed = true;
       System.out.print("계속 입력하시겠습니까(y/n)?");
       if (!keyScan.nextLine().equals("y"))
         break;
@@ -109,7 +173,9 @@ public class BookController {
     System.out.print("삭제할 책의 인덱스?");
     int index = Integer.parseInt(keyScan.nextLine());
     Book deletedBook = list.remove(index);
+    changed = true;
     System.out.printf("%s 책을 삭제하였습니다.\n", deletedBook.name);
+
   }
 
   private void doUpdate() {
@@ -142,6 +208,7 @@ public class BookController {
       } catch(Exception e) {
         System.out.println("정수 값을 입력하세요.");
       }
+
     }
 
     System.out.print("부록(y/n)? ");
@@ -151,6 +218,7 @@ public class BookController {
     if (keyScan.nextLine().toLowerCase().equals("y")) {
       b1.name = oldBook.name;
       list.set(index, b1);
+      changed = true;
       System.out.println("저장하였습니다.");
     } else {
       System.out.println("변경을 취소하였습니다.");
