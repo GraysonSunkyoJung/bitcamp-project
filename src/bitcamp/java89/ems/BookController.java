@@ -1,25 +1,24 @@
-/* 작업내용 : 저장기능 추가
-- ischanged()추가
-- save 추가
+/* 작업내용: 직렬화 적용 
 */
+
 package bitcamp.java89.ems;
 
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.io.FileOutputStream;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.DataInputStream;
 import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BookController {
-  private String filename = "book.data";
+  private String filename = "book2.data";
   static ArrayList<Book> list;
   private Scanner keyScan;
   private boolean changed;
 
 
-  public BookController(Scanner keyScan) throws Exception {
+  public BookController(Scanner keyScan) {
     list = new ArrayList<Book>();
     this.keyScan = keyScan;
 
@@ -29,28 +28,22 @@ public class BookController {
   public boolean isChanged() {
     return changed;
   }
-
+ 
+  @SuppressWarnings("unchecked")
   private void load() {
     FileInputStream in0 = null;
-    DataInputStream in = null;
+    ObjectInputStream in = null;
 
     try {
       in0 = new FileInputStream(this.filename);
-      in = new DataInputStream(in0);
+      in = new ObjectInputStream(in0);
+      
+      list = (ArrayList<Book>)in.readObject();
 
-      while (true) {
-        Book b1 = new Book();
-        b1.name = in.readUTF();
-        b1.author = in.readUTF();
-        b1.price = in.readInt();
-        b1.page = in.readInt();
-        b1.cd = in.readBoolean();
-        this.list.add(b1);
-      }
      } catch (EOFException e) {
        // 파일을 모두 읽었다.
      } catch (Exception e) {
-       System.out.println("학생 데이터 로딩 중 오류 발생!");
+       System.out.println("데이터 로딩 중 오류 발생!");
      } finally {
       try{
        in.close();
@@ -63,21 +56,16 @@ public class BookController {
 
   public void save() throws Exception {
     FileOutputStream out0 = new FileOutputStream(this.filename);
-    DataOutputStream out = new DataOutputStream(out0);
-
-    for (Book b1 : this.list) {
-      out.writeUTF(b1.name);
-      out.writeUTF(b1.author);
-      out.writeInt(b1.price);
-      out.writeInt(b1.page);
-      out.writeBoolean(b1.cd);
-    }
+    ObjectOutputStream out = new ObjectOutputStream(out0);
+    
+    out.writeObject(list);
+    
     changed = false;
-
+    
     out.close();
     out0.close();
   }
-
+    
   public void service() {
     loop:
     while (true) {
