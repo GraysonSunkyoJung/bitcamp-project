@@ -12,9 +12,8 @@ import bitcamp.java89.ems.server.vo.Book;
 
 public class BookDao {
   static BookDao obj;
-  private String filename = "book-v1.6.data";
+  private String filename = "book-v1.8.data";
   static ArrayList<Book> list;
-  private boolean changed;
 
   public static BookDao getInstance() {
     if (obj == null) {
@@ -27,9 +26,6 @@ public class BookDao {
     this.load();
   }
 
-  public boolean isChanged() {
-    return changed;
-  }
  
   @SuppressWarnings("unchecked")
   private void load() {
@@ -64,7 +60,6 @@ public class BookDao {
     
     out.writeObject(list);
     
-    changed = false;
     
     out.close();
     out0.close();
@@ -87,14 +82,14 @@ public class BookDao {
     
   synchronized public void insert(Book book) {
     list.add(book);
-    changed = true;
+    try {this.save();} catch (Exception e) {}
   }
   
   synchronized public void update(Book book) {
     for (int i = 0; i < list.size(); i++) {
       if (list.get(i).getName().equals(book.getName())) {
         list.set(i, book);
-        changed = true;
+        try {this.save();} catch (Exception e) {}
         return;
       }
     }
@@ -104,7 +99,7 @@ public class BookDao {
     for (int i = 0; i < list.size(); i++) {
       if (list.get(i).getName().equals(name)) {
         list.remove(i);
-        changed = true;
+        try {this.save();} catch (Exception e) {}
         return;
       }
     }
