@@ -3,16 +3,16 @@ package bitcamp.java89.ems.server;
 import java.net.ServerSocket;
 import java.util.HashMap;
 
-import bitcamp.java89.ems.server.controller.BookAddController;
-import bitcamp.java89.ems.server.controller.BookDeleteController;
-import bitcamp.java89.ems.server.controller.BookListController;
-import bitcamp.java89.ems.server.controller.BookUpdateController;
-import bitcamp.java89.ems.server.controller.BookViewController;
 import bitcamp.java89.ems.server.controller.ContactAddController;
 import bitcamp.java89.ems.server.controller.ContactDeleteController;
 import bitcamp.java89.ems.server.controller.ContactListController;
 import bitcamp.java89.ems.server.controller.ContactUpdateController;
 import bitcamp.java89.ems.server.controller.ContactViewController;
+import bitcamp.java89.ems.server.controller.LectureAddController;
+import bitcamp.java89.ems.server.controller.LectureDeleteController;
+import bitcamp.java89.ems.server.controller.LectureListController;
+import bitcamp.java89.ems.server.controller.LectureUpdateController;
+import bitcamp.java89.ems.server.controller.LectureViewController;
 
 public class EduAppServer {
   // Command 구현체 보관
@@ -27,11 +27,11 @@ public class EduAppServer {
     commandMap.put("contact/delete", new ContactDeleteController());
     commandMap.put("contact/update", new ContactUpdateController());
     
-    commandMap.put("book/list", new BookListController());
-    commandMap.put("book/view", new BookViewController());
-    commandMap.put("book/add", new BookAddController());
-    commandMap.put("book/delete", new BookDeleteController());
-    commandMap.put("book/update", new BookUpdateController());
+    commandMap.put("lecture/list", new LectureListController());
+    commandMap.put("lecture/view", new LectureViewController());
+    commandMap.put("lecture/add", new LectureAddController());
+    commandMap.put("lecture/delete", new LectureDeleteController());
+    commandMap.put("lecture/update", new LectureUpdateController());
 
   }
   

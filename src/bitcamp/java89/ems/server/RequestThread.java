@@ -77,22 +77,7 @@ public class RequestThread extends Thread {
   }
 
   private boolean doQuit() {
-      doSave();
     System.out.println("클라이언트 연결 종료!");
     return true;
-  }
-
-  private void doSave() {
-    try{
-      //contactController.save();
-    } catch (Exception e) {
-      System.out.println("연락처 저장 중에 오류가 발생했습니다.");
-    }
-    
-    try{
-      //bookController.save();
-    } catch (Exception e) {
-      System.out.println("교재 정보 저장 중에 오류가 발생했습니다.");
-    }
   }
 }

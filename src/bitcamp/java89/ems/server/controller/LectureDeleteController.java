@@ -1,28 +1,27 @@
 package bitcamp.java89.ems.server.controller;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import bitcamp.java89.ems.server.Command;
-import bitcamp.java89.ems.server.dao.ContactDao;
-import bitcamp.java89.ems.server.vo.Contact;
+import bitcamp.java89.ems.server.dao.LectureDao;
 
-public class ContactDeleteController implements Command {
+public class LectureDeleteController implements Command {
   
   public void service(HashMap<String, String> paramMap, PrintStream out) {
     try {
-      ContactDao contactDao = ContactDao.getInstance();
-      if (!contactDao.existEmail(paramMap.get("email"))) {
+      LectureDao lectureDao = LectureDao.getInstance();
+      
+      if (!lectureDao.existName(paramMap.get("name"))) {
         out.println("해당 데이터가 없습니다.");
         return;
       }
       
-      contactDao.delete(paramMap.get("email"));
+      lectureDao.delete(paramMap.get("name"));
       out.println("해당 데이터를 삭제 완료하였습니다.");
-    }catch (Exception e) {
+    } catch (Exception e) {
       out.println("작업중 예외가 발생하였습니다.");
-      e.printStackTrace(); // 구체적인 에러 내용을 출력하라.
+      e.printStackTrace();  
     }
   }
 }
