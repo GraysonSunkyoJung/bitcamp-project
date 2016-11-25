@@ -1,35 +1,29 @@
 package bitcamp.java89.ems.server.controller;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import bitcamp.java89.ems.server.Command;
+import bitcamp.java89.ems.server.AbstractCommand;
 import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
-public class ContactUpdateController implements Command {
+public class ContactUpdateController extends AbstractCommand {
   
-  
-  public void service(HashMap<String, String> paramMap, PrintStream out) {
-    try {
-      ContactDao contactDao = ContactDao.getInstance();
-      if (!contactDao.existEmail(paramMap.get("email"))) {
-        out.println("이메일을 찾지 못했습니다.");
-        return;
-      }
-      
-      Contact contact = new Contact();
-      contact.setEmail(paramMap.get("email"));
-      contact.setName(paramMap.get("name"));
-      contact.setPosition(paramMap.get("position"));
-      contact.setTel(paramMap.get("tel"));
-      
-      contactDao.update(contact);
-      out.println("변경 하였습니다.");    
-    } catch (Exception e) {
-      out.println("작업중 예외가 발생하였습니다.");
-      e.printStackTrace(); // 구체적인 에러 내용을 출력하라.
+  @Override
+  protected void doResponse(HashMap<String, String> paramMap, PrintStream out) throws Exception {
+    ContactDao contactDao = ContactDao.getInstance();
+    if (!contactDao.existEmail(paramMap.get("email"))) {
+      out.println("이메일을 찾지 못했습니다.");
+      return;
     }
+    
+    Contact contact = new Contact();
+    contact.setEmail(paramMap.get("email"));
+    contact.setName(paramMap.get("name"));
+    contact.setPosition(paramMap.get("position"));
+    contact.setTel(paramMap.get("tel"));
+    
+    contactDao.update(contact);
+    out.println("변경 하였습니다.");    
   }
 }
