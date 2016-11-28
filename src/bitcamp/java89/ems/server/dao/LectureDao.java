@@ -7,18 +7,6 @@ import bitcamp.java89.ems.server.vo.Lecture;
 
 public class LectureDao extends AbstractDao<Lecture> {
   static LectureDao obj;
-
-  public static LectureDao getInstance() throws Exception {
-    if (obj == null) {
-      obj = new LectureDao();
-      obj.load();
-    }
-    return obj;
-  }
-  
-  public LectureDao() throws Exception {
-    super("lecture-v1.9.data");
-  }
     
   public ArrayList<Lecture> getList() {
     return this.list;

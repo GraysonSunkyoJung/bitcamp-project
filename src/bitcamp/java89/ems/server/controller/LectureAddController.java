@@ -8,10 +8,20 @@ import bitcamp.java89.ems.server.dao.LectureDao;
 import bitcamp.java89.ems.server.vo.Lecture;
 
 public class LectureAddController extends AbstractCommand {
- 
+  // 의존 객체 DAO를 저장할 변수 선언
+  LectureDao lectureDao;
+  
+  // 의존객체 주입할 때 호출할 셋터 추가
+  public void setLectureDao(LectureDao lectureDao) {
+    this.lectureDao = lectureDao;
+  }
+  
   @Override
   protected void doResponse(HashMap<String, String> paramMap, PrintStream out) throws Exception {
-    LectureDao lectureDao = LectureDao.getInstance();
+    
+    // 주입받은 lectureDao를 사용할 것이기 때문에
+    // 더이상 이 메서드에서LectureDao객체를 준비하지 않는다.
+    // => 단 이 메서드가 호출되기 전에 반드시 LectureDao가 주입되어 있어야 한다.
     if (lectureDao.existName(paramMap.get("name"))) {
       out.println("같은 강의명이 존재합니다. 등록을 취소합니다.");
       return;
@@ -30,7 +40,6 @@ public class LectureAddController extends AbstractCommand {
 
   @Override
   public String getCommandString() {
-    // TODO Auto-generated method stub
     return "lecture/add";
   }
 }
