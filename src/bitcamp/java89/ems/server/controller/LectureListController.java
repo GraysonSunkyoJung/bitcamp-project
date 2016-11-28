@@ -22,4 +22,10 @@ public class LectureListController extends AbstractCommand {
         (lecture.isLevelTest() ? "y" : "n"));
     } 
   }
+
+  @Override
+  public String getCommandString() {
+    // TODO Auto-generated method stub
+    return "lecture/list";
+  }
 }

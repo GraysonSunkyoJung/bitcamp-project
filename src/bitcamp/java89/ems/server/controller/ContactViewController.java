@@ -23,4 +23,10 @@ public class ContactViewController extends AbstractCommand {
       out.printf("이메일: %s\n", contact.getEmail());
     }
   }
+
+  @Override
+  public String getCommandString() {
+    // TODO Auto-generated method stub
+    return "contact/view";
+  }
 }

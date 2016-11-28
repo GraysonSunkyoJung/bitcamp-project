@@ -22,4 +22,10 @@ public class ContactListController extends AbstractCommand {
         contact.getEmail());
     }
   }
+
+  @Override
+  public String getCommandString() {
+    // TODO Auto-generated method stub
+    return "contact/list";
+  }
 }

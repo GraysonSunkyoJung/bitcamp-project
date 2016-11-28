@@ -22,4 +22,10 @@ public class LectureViewController extends AbstractCommand {
       out.printf("레벨테스트: %s\n", (lecture.isLevelTest() ? "y" : "n"));
     }
   }
+
+  @Override
+  public String getCommandString() {
+    // TODO Auto-generated method stub
+    return "lecture/view";
+  }
 }

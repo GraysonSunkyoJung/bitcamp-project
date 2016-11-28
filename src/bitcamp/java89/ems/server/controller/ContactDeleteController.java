@@ -10,6 +10,7 @@ public class ContactDeleteController extends AbstractCommand {
   
   @Override
   protected void doResponse(HashMap<String, String> paramMap, PrintStream out) throws Exception {
+    
     ContactDao contactDao = ContactDao.getInstance();
     if (!contactDao.existEmail(paramMap.get("email"))) {
       out.println("해당 데이터가 없습니다.");
@@ -19,5 +20,11 @@ public class ContactDeleteController extends AbstractCommand {
     contactDao.delete(paramMap.get("email"));
     out.println("해당 데이터를 삭제 완료하였습니다.");
     
+  }
+
+  @Override
+  public String getCommandString() {
+    // TODO Auto-generated method stub
+    return "contact/delete";
   }
 }

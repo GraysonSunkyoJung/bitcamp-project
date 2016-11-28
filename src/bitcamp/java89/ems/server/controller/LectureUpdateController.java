@@ -25,4 +25,10 @@ public class LectureUpdateController extends AbstractCommand {
     lectureDao.update(lecture);
     out.println("변경하였습니다.");
   }
+
+  @Override
+  public String getCommandString() {
+    // TODO Auto-generated method stub
+    return "lecture/update";
+  }
 }

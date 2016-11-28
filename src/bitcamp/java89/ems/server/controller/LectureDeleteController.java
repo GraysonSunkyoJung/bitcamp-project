@@ -20,4 +20,10 @@ public class LectureDeleteController extends AbstractCommand {
     lectureDao.delete(paramMap.get("name"));
     out.println("해당 데이터를 삭제 완료하였습니다.");
   }
+
+  @Override
+  public String getCommandString() {
+    // TODO Auto-generated method stub
+    return "lecture/delete";
+  }
 }

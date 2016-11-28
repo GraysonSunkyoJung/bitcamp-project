@@ -26,4 +26,10 @@ public class ContactUpdateController extends AbstractCommand {
     contactDao.update(contact);
     out.println("변경 하였습니다.");    
   }
+
+  @Override
+  public String getCommandString() {
+    // TODO Auto-generated method stub
+    return "contact/update";
+  }
 }
