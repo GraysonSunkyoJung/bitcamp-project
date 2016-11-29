@@ -1,4 +1,3 @@
-
 package bitcamp.java89.ems.server.dao;
 
 import java.util.ArrayList;
@@ -6,7 +5,10 @@ import java.util.ArrayList;
 import bitcamp.java89.ems.server.vo.Lecture;
 
 public class LectureDao extends AbstractDao<Lecture> {
-  static LectureDao obj;
+  public LectureDao() throws Exception {
+    this.setFilename("lecture-v1.9.data");
+    this.load();
+  }
     
   public ArrayList<Lecture> getList() {
     return this.list;
