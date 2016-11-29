@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import bitcamp.java89.ems.server.AbstractCommand;
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.LectureDao;
 import bitcamp.java89.ems.server.vo.Lecture;
 
+@Component(value = "lecture/view") //ApplicationContxt가 관리하는 클래스 임을 표시
 public class LectureViewController extends AbstractCommand {
   //의존 객체 DAO를 저장할 변수 선언  
   LectureDao lectureDao;
@@ -30,11 +32,5 @@ public class LectureViewController extends AbstractCommand {
       out.printf("제한인원: %d\n", lecture.getLimit());
       out.printf("레벨테스트: %s\n", (lecture.isLevelTest() ? "y" : "n"));
     }
-  }
-
-  @Override
-  public String getCommandString() {
-    // TODO Auto-generated method stub
-    return "lecture/view";
   }
 }

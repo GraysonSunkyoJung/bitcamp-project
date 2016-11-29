@@ -4,8 +4,10 @@ import java.io.PrintStream;
 import java.util.HashMap;
 
 import bitcamp.java89.ems.server.AbstractCommand;
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.LectureDao;
 
+@Component(value = "lecture/delete") //ApplicationContxt가 관리하는 클래스 임을 표시
 public class LectureDeleteController extends AbstractCommand {
   // 의존 객체 DAO를 저장할 변수 선언
   LectureDao lectureDao;
@@ -28,11 +30,5 @@ public class LectureDeleteController extends AbstractCommand {
     
     lectureDao.delete(paramMap.get("name"));
     out.println("해당 데이터를 삭제 완료하였습니다.");
-  }
-
-  @Override
-  public String getCommandString() {
-    // TODO Auto-generated method stub
-    return "lecture/delete";
   }
 }

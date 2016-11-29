@@ -4,9 +4,11 @@ import java.io.PrintStream;
 import java.util.HashMap;
 
 import bitcamp.java89.ems.server.AbstractCommand;
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.LectureDao;
 import bitcamp.java89.ems.server.vo.Lecture;
 
+@Component(value = "lecture/update") //ApplicationContxt가 관리하는 클래스 임을 표시
 public class LectureUpdateController extends AbstractCommand {
   //의존 객체 DAO를 저장할 변수 선언
   LectureDao lectureDao;
@@ -34,11 +36,5 @@ public class LectureUpdateController extends AbstractCommand {
     lecture.setLevelTest(paramMap.get("leveltest").equals("y") ? true : false);
     lectureDao.update(lecture);
     out.println("변경하였습니다.");
-  }
-
-  @Override
-  public String getCommandString() {
-    // TODO Auto-generated method stub
-    return "lecture/update";
   }
 }

@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import bitcamp.java89.ems.server.context.ApplicationContext;
 
 public class EduAppServer {
-  // IoC 컨테이
+  // IoC 컨테이너
   ApplicationContext appContext;
   
   public EduAppServer() {

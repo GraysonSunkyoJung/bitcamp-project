@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import bitcamp.java89.ems.server.AbstractCommand;
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
+@Component(value = "contact/view") //ApplicationContxt가 관리하는 클래스 임을 표
 public class ContactViewController extends AbstractCommand {
   // 의존 객체 DAO를 저장할 변수 선언
   ContactDao contactDao;
@@ -16,12 +18,7 @@ public class ContactViewController extends AbstractCommand {
   public void setContactDao(ContactDao contactDao) {
     this.contactDao = contactDao;
   }
-  
-  @Override
-  public String getCommandString() {
-    return "contact/view";
-  }
-  
+
   //클라이언트에서 보낸 데이터 형식
   // => view?name=홍길동
   @Override
