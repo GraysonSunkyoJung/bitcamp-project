@@ -19,12 +19,11 @@ public abstract class AbstractDao<T> {
 
   @SuppressWarnings("unchecked")
   public void load() throws Exception {
-    
     try (
-       ObjectInputStream in = new ObjectInputStream (new FileInputStream(this.filename));) {
-  
-      list = (ArrayList<T>)in.readObject();
-      
+        ObjectInputStream in = new ObjectInputStream(
+                                new FileInputStream(this.filename));) {
+        list = (ArrayList<T>)in.readObject();
+     
     } catch (EOFException e) {
       // 파일을 모두 읽었다.
     } catch (Exception e) {
@@ -35,13 +34,16 @@ public abstract class AbstractDao<T> {
 
   public synchronized void save() throws Exception {
     try (
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.filename));) {
-  
-    out.writeObject(list);
-    
-  
-    } catch(Exception e) {
-       throw e;
-    }
+      ObjectOutputStream out = new ObjectOutputStream(
+                                  new FileOutputStream(this.filename)); ) {
+      out.writeObject(list);
+    } catch (Exception e) {
+      throw e;
+    } 
   }
+
 }
+
+
+
+
