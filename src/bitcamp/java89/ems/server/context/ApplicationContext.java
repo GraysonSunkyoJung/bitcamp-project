@@ -23,8 +23,8 @@ public class ApplicationContext {
   // package에서 class로 나누고 다시 object로 나누는 과정
   public  ApplicationContext(String[] packages) {
     ArrayList<Class<?>> classList = getClassList(packages);
-    prepareObjects(classList);
-    injectDependencies();
+    prepareObjects(classList); //class를 가지고 객채를 만든다.
+    injectDependencies();  //의존객채가 있는지 찾아서 꼽아준다
   }
   
   public Object getBean(String name) {

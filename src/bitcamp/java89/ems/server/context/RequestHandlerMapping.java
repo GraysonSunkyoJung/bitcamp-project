@@ -6,19 +6,19 @@ import java.util.HashMap;
 
 import bitcamp.java89.ems.server.annotation.RequestMapping;
 
-public class RequestHandlerMapping {
+public class RequestHandlerMapping {//메소드만 추려놓은 단어장! 
   HashMap<String,RequestHandler> handlerMap = new HashMap<>();
   
-  public RequestHandlerMapping(Collection<Object> objList) {
+  public RequestHandlerMapping(Collection<Object> objList) { //받은 객채를 반복
     for (Object obj : objList) {
-      Method[] methods = obj.getClass().getMethods();
+      Method[] methods = obj.getClass().getMethods(); // 메소드 목록을 뽑아냄 
       for (Method m : methods) {
-        RequestMapping anno = m.getAnnotation(RequestMapping.class);
+        RequestMapping anno = m.getAnnotation(RequestMapping.class); // 태깅된 메소드만 뽑아냄 
         if (anno == null) {
           continue;
         }
 
-        handlerMap.put(anno.value(), new RequestHandler(obj, m));
+        handlerMap.put(anno.value(), new RequestHandler(obj, m)); //뽑아낸걸 해시맵에담음, 객체주소와 함께.
 
       }
     }
