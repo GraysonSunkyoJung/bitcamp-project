@@ -2,7 +2,6 @@ package bitcamp.java89.ems.server.controller;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.annotation.RequestMapping;
@@ -25,7 +24,7 @@ public class LectureController {
     @RequestParam("name") String name,
     @RequestParam("introduce") String introduce,
     @RequestParam("limit") int limit,
-    @RequestParam("levelTest") boolean levelTest,
+    @RequestParam("leveltest") boolean levelTest,
     PrintStream out) throws Exception {
     
     // 주입받은 lectureDao를 사용할 것이기 때문에
@@ -80,17 +79,17 @@ public class LectureController {
   
   @RequestMapping(value = "lecture/update")
   public void update(
-    @RequestParam("name") String name,
-    @RequestParam("introduce") String introduce,
-    @RequestParam("limit") int limit,
-    @RequestParam("levelTest") boolean levelTest
-    , PrintStream out) throws Exception {
+      @RequestParam("name") String name,
+      @RequestParam("introduce") String introduce,
+      @RequestParam("limit") int limit,
+      @RequestParam("leveltest") boolean levelTest,
+      PrintStream out) throws Exception {
     
     // 주입받은 lectureDao를 사용할 것이기 때문에
     // 더이상 이 메서드에서LectureDao객체를 준비하지 않는다.
     // => 단 이 메서드가 호출되기 전에 반드시 LectureDao가 주입되어 있어야 한다.
     if (!lectureDao.existName(name)) {
-      out.println("교재를 찾지 못했습니다.");
+      out.println("해당 강의 찾지 못했습니다.");
       return;
     }
     

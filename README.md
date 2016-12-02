@@ -1,10 +1,40 @@
+# v2.9
+####구현할 기능 및 산출물:
+DBMS를 이용하여 데이터를 관리한다.
+- JDBC 드라이버 준비
+  - 프로젝트 폴더 아래에 libs 폴더를 생성한 후 
+    해당 폴더에 JDBC 드라이버 파일을 둔다.
+  - Java Build Path에 이 드라이버의 경로를 추가한다.
+- DAO 클래스 이름 변경: 향후 다양한 형태의 데이터 저장을 지원하기 위해
+  - AbstractDao.java 파일을 AbstractFileDao.java로 변경
+  - ContactDao.java 파일을 ContactFileDao.java로 변경
+  - LectureDao.java 파일을 LectureFileDao.java로 변경
+- MySQL DBMS를 사용하는 DAO 생성  
+  - ContactDao.java 인터페이스 생성: 컨트롤러와 DAO 사이의 호출 규칙을 정의.
+  - ContactFileDao.java는 이 인터페이스를 구현한다.
+  - ContactMySQLDao.java(생성)는 이 인터페이스를 구현한다.
+  - LectureFileDao.java는 이 인터페이스를 구현한다.
+  - LectureMySQLDao.java(생성)는 이 인터페이스를 구현한다.
+- 클래스 관리를 효율적으로 하기 위해 impl 패키지를 생성한다.
+  - dao/impl 패키지를 생성 
+  - impl 패키지 아래에 ContactDao 인터페이스를 구현한 클래스를 둔다. 
+- Controller 변경
+  - Controller가 의지하는 Dao를 가리킬 때 클래스 이름 대신 인터페이스를 사용한다.
+  - ContactController.java (변경)
+  - LectureController.java (변경)
+- 사용할 DAO에만 @Component를 붙인다.
+  - @Component가 붙지 않은 클래스는 객체를 만들지 않기 때문이다.   
+####학습목표:
+- JDBC 프로그래밍을 할 수 있다.
+
+
 # v2.8
 ####구현할 기능 및 산출물:
 파라미터 선언을 자유롭게 하자! 메서드의 파라미터 정보를 분석하여 필요한 값만 전달한다.
 - ContactController.java (생성)
   - Contact 관련 클래스들의 메서드를 모두 이 클래스에 넣는다.
-- StudentController.java (생성)
-  - Student 관련 클래스들의 메서드를 모두 이 클래스에 넣는다.
+- LectureController.java (생성)
+  - Lecture 관련 클래스들의 메서드를 모두 이 클래스에 넣는다.
 - HelloController.java (생성)
   - Hello 관련 클래스들의 메서드를 모두 이 클래스에 넣는다.
 - RequestHandlerMapping.java (생성)
@@ -24,14 +54,13 @@
 - Reflection API 활용법을 익힌다.
 
 
-
 # v2.7
 ####구현할 기능 및 산출물:
 메서드 대통합! 유사 업무를 처리하는 메서드끼리 한 클래스에서 관리한다.
 - ContactController.java (생성)
   - Contact 관련 클래스들의 메서드를 모두 이 클래스에 넣는다.
-- StudentController.java (생성)
-  - Student 관련 클래스들의 메서드를 모두 이 클래스에 넣는다.
+- LectureController.java (생성)
+  - Lecture 관련 클래스들의 메서드를 모두 이 클래스에 넣는다.
 - HelloController.java (생성)
   - Hello 관련 클래스들의 메서드를 모두 이 클래스에 넣는다.
 - RequestHandlerMapping.java (생성)
@@ -93,7 +122,7 @@
   - ApplicationContext.java (생성)
   - ReflectionUtil 클래스와 ApplicationContext 클래스의 기능을 합친다.
   - ReflectionUtil.java (제거)
-  - StudentDao, ContactDao 클래스 변경
+  - LectureDao, ContactDao 클래스 변경
     - 생성자 호출 시 load() 메서드를 호출하도록 바꾼다.
 - EduAppServer 클래스는 ApplicationContext 클래스를 사용하여 객체를 다룬다.
   - EduAppServer.java (변경)

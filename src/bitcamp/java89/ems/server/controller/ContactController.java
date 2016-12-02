@@ -9,9 +9,11 @@ import bitcamp.java89.ems.server.annotation.RequestParam;
 import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
-@Component// ApplicationContext가 관리하는 대상 클래스임을 태깅한다.
+@Component // ApplicationContext가 관리하는 대상 클래스임을 태깅한다.
 public class ContactController {
-  // 의존 객체 DAO를 저장할 변수 선언
+  // 의존 객체 DAO를 저장하기 위한 변수 
+  // => 직접 클래스 이름을 명시하기 보다 인터페이스 변수를 선언하는 것이 
+  //    향후 확장성에 좋다. 왜? 이 변수에 다양한 객체를 넣을 수 있기 때문이다.
   ContactDao contactDao;
   
   // 의존 객체 주입할 때 호출할 셋터 추가
@@ -19,15 +21,14 @@ public class ContactController {
     this.contactDao = contactDao;
   }
   
-  //클라이언트에서 보낸 데이터 형식
-  // => add?name=홍길동2&position=대리&tel=111-1111&email=hong@test.com
-  @RequestMapping(value = "contact/add")
+  // => add?name=홍길동&position=대리&tel=111-1111&email=hong@test.com
+  @RequestMapping(value="contact/add")
   public void add(
       @RequestParam("name") String name,
       @RequestParam("tel") String tel,
       @RequestParam("position") String position,
       @RequestParam("email") String email,
-      PrintStream out)
+      PrintStream out) 
       throws Exception {
     if (contactDao.existEmail(email)) {
       out.println("같은 이메일이 존재합니다. 등록을 취소합니다.");
@@ -44,14 +45,11 @@ public class ContactController {
     out.println("등록하였습니다.");
   }
   
-//클라이언트에서 보낸 데이터 형식
+  //클라이언트에서 보낸 데이터 형식
   // => delete?email=hong@test.com
-  @RequestMapping(value = "contact/delete")
+  @RequestMapping(value="contact/delete")
   public void delete(@RequestParam("email") String email, PrintStream out) 
       throws Exception {
-    // 주입 받은 contactDao를 사용할 것이기 때문에 
-    // 더이상 이 메서드에서 ContactDao 객체를 준비하지 않는다.
-    // => 단 이 메서드가 호출되기 전에 반드시 ContactDao가 주입되어 있어야 한다.
     if (!contactDao.existEmail(email)) {
       out.println("해당 데이터가 없습니다.");
       return;
@@ -61,12 +59,9 @@ public class ContactController {
     out.println("해당 데이터를 삭제 완료하였습니다.");
   }
   
-  @RequestMapping(value = "contact/list")
+  @RequestMapping(value="contact/list")
   public void list(PrintStream out) 
       throws Exception {
-    // 주입 받은 contactDao를 사용할 것이기 때문에 
-    // 더이상 이 메서드에서 ContactDao 객체를 준비하지 않는다.
-    // => 단 이 메서드가 호출되기 전에 반드시 ContactDao가 주입되어 있어야 한다.
     ArrayList<Contact> list = contactDao.getList();
     for (Contact contact : list) {
       out.printf("%s,%s,%s,%s\n",
@@ -77,7 +72,11 @@ public class ContactController {
     }
   }
   
-  @RequestMapping(value = "contact/update")
+  //클라이언트에서 보낸 데이터 형식
+  // => update?name=홍길동&position=대리&tel=111-1111&email=hong@test.com
+  // 이메일이 일치하는 사용자를 찾아 나머지 항목의 값을 변경한다.
+  // 단 이메일은 변경할 수 없다.
+  @RequestMapping(value="contact/update")
   public void update(
       @RequestParam("name") String name,
       @RequestParam("tel") String tel,
@@ -85,9 +84,6 @@ public class ContactController {
       @RequestParam("email") String email,
       PrintStream out) 
       throws Exception {
-    // 주입 받은 contactDao를 사용할 것이기 때문에 
-    // 더이상 이 메서드에서 ContactDao 객체를 준비하지 않는다.
-    // => 단 이 메서드가 호출되기 전에 반드시 ContactDao가 주입되어 있어야 한다.
     if (!contactDao.existEmail(email)) {
       out.println("이메일을 찾지 못했습니다.");
       return;
@@ -103,12 +99,11 @@ public class ContactController {
     out.println("변경 하였습니다.");
   }
   
-  @RequestMapping(value = "contact/view")
-  public void view(@RequestParam(value = "name")String name, PrintStream out) 
+  //클라이언트에서 보낸 데이터 형식
+  // => view?name=홍길동
+  @RequestMapping(value="contact/view")
+  public void view(@RequestParam("name") String name, PrintStream out) 
       throws Exception {
-    // 주입 받은 contactDao를 사용할 것이기 때문에 
-    // 더이상 이 메서드에서 ContactDao 객체를 준비하지 않는다.
-    // => 단 이 메서드가 호출되기 전에 반드시 ContactDao가 주입되어 있어야 한다. 
     ArrayList<Contact> list = contactDao.getListByName(name);
     for (Contact contact : list) {
       out.println("--------------------------");
