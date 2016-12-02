@@ -1,7 +1,6 @@
 package bitcamp.java89.ems.server.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -14,16 +13,13 @@ import bitcamp.java89.ems.server.vo.Lecture;
 public class LectureMysqlDao implements LectureDao {
   Connection con;
   
-  public LectureMysqlDao() {
-    try {
-      Class.forName("com.mysql.jdbc.Driver");
-      con = DriverManager.getConnection(
-          "jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+  
     
+  public void setConnection(Connection con) {
+    this.con = con;
+  }
+
+
   public ArrayList<Lecture> getList() throws Exception {
     ArrayList<Lecture> list =  new ArrayList<>();
     try (

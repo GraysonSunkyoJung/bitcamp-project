@@ -14,6 +14,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import bitcamp.java89.ems.server.annotation.Component;
 
@@ -22,11 +24,23 @@ public class ApplicationContext {
   
   // package에서 class로 나누고 다시 object로 나누는 과정
   public  ApplicationContext(String[] packages) {
-    ArrayList<Class<?>> classList = getClassList(packages);
-    prepareObjects(classList); //class를 가지고 객채를 만든다.
-    injectDependencies();  //의존객채가 있는지 찾아서 꼽아준다
+   this(packages, null);
   }
   
+  public ApplicationContext(String[] packages, HashMap<String, Object> builtInObjMap) {
+    // 외부에서 넘겨준 객체를 포함시킨다.
+    if (builtInObjMap != null) {
+      Set<Entry<String,Object>> entrySet = builtInObjMap.entrySet();
+      for (Entry<String,Object> entry : entrySet) {
+        objPool.put(entry.getKey(), entry.getValue());
+      }
+    }
+    ArrayList<Class<?>> classList = getClassList(packages);
+    prepareObjects(classList); //class를 가지고 객채를 만든다.
+    injectDependencies();
+  }
+
+ 
   public Object getBean(String name) {
     return objPool.get(name);
   }
