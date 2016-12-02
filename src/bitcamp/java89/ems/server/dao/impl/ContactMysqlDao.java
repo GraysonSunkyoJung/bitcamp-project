@@ -12,16 +12,21 @@ import bitcamp.java89.ems.server.vo.Contact;
 
 @Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
 public class ContactMysqlDao implements ContactDao {
+  Connection con;
   
-  public ContactMysqlDao() {}
+  public ContactMysqlDao() {
+    try {
+      Class.forName("com.mysql.jdbc.Driver");
+      con = DriverManager.getConnection(
+          "jdbc:mysql://localhost:3306/java89db", "java89", "1111");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
   
   public ArrayList<Contact> getList() throws Exception {
     ArrayList<Contact> list =  new ArrayList<>();
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection(
-          "jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "select posi, name, tel, email from ex_contacts");
       ResultSet rs = stmt.executeQuery();){
@@ -41,11 +46,7 @@ public class ContactMysqlDao implements ContactDao {
   
   public ArrayList<Contact> getListByName(String name) throws Exception {
     ArrayList<Contact> list =  new ArrayList<>();
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection(
-          "jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "select posi, name, tel, email from ex_contacts where name=?");){
       
@@ -66,10 +67,7 @@ public class ContactMysqlDao implements ContactDao {
   }
   
   synchronized public void insert(Contact contact) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "insert into ex_contacts(name,email,tel,posi) values(?,?,?,?)"); ) {
       stmt.setString(1, contact.getName());
@@ -81,11 +79,8 @@ public class ContactMysqlDao implements ContactDao {
     }
   }
   
-  synchronized public void update(Contact contact) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
+  public void update(Contact contact) throws Exception {
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "update ex_contacts set name=?, tel=?, posi=? where email=?"); ) {
       
@@ -98,11 +93,8 @@ public class ContactMysqlDao implements ContactDao {
     }
   }
   
-  synchronized public void delete(String email) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
-    try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
+  public void delete(String email) throws Exception {
+    try (      
       PreparedStatement stmt = con.prepareStatement(
           "delete from ex_contacts where email=?"); ) {
       
@@ -113,11 +105,7 @@ public class ContactMysqlDao implements ContactDao {
   }
   
   public boolean existEmail(String email) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection(
-          "jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "select * from ex_contacts where email=?");){
       

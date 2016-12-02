@@ -12,15 +12,21 @@ import bitcamp.java89.ems.server.vo.Lecture;
 
 @Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
 public class LectureMysqlDao implements LectureDao {
+  Connection con;
   
+  public LectureMysqlDao() {
+    try {
+      Class.forName("com.mysql.jdbc.Driver");
+      con = DriverManager.getConnection(
+          "jdbc:mysql://localhost:3306/java89db", "java89", "1111");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
     
   public ArrayList<Lecture> getList() throws Exception {
     ArrayList<Lecture> list =  new ArrayList<>();
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection(
-          "jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "select name, intro, limi, lvtst from ex_lectures");
       ResultSet rs = stmt.executeQuery();){
@@ -41,11 +47,7 @@ public class LectureMysqlDao implements LectureDao {
    
   public ArrayList<Lecture> getListByName(String name) throws Exception {
     ArrayList<Lecture> list =  new ArrayList<>();
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection(
-          "jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "select name, intro, limi, lvtst from ex_lectures where name=?");){
       
@@ -66,10 +68,7 @@ public class LectureMysqlDao implements LectureDao {
   }
     
   public void insert(Lecture lecture) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "insert into ex_lectures(name,intro,limi,lvtst) values(?,?,?,?)"); ) {
       stmt.setString(1, lecture.getName());
@@ -82,10 +81,7 @@ public class LectureMysqlDao implements LectureDao {
   }
   
   public void update(Lecture lecture) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "update ex_lectures set intro=?, limi=?, lvtst=? where name=?"); ) {
       
@@ -99,10 +95,7 @@ public class LectureMysqlDao implements LectureDao {
   }
   
   public void delete(String name) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "delete from ex_lectures where name=?"); ) {
       
@@ -113,11 +106,7 @@ public class LectureMysqlDao implements LectureDao {
   }
   
   public boolean existName(String name) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection(
-          "jdbc:mysql://localhost:3306/java89db", "java89", "1111");
-      
       PreparedStatement stmt = con.prepareStatement(
           "select * from ex_lectures where name=?");){
       
