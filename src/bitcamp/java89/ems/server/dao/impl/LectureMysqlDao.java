@@ -5,20 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import bitcamp.java89.ems.server.annotation.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import bitcamp.java89.ems.server.dao.LectureDao;
 import bitcamp.java89.ems.server.util.DataSource;
 import bitcamp.java89.ems.server.vo.Lecture;
 
 @Component // ApplicationContext가 관리하는 클래스임을 표시하기 위해 태그를 단다.
 public class LectureMysqlDao implements LectureDao {
-  DataSource ds;
-
-
-
-  public void setDs(DataSource dataSource) {
-    this.ds = dataSource;
-  }
+  @Autowired DataSource ds;
 
 
   public ArrayList<Lecture> getList() throws Exception {
